@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f6b4f">
+  <title>Business Management App</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7f5;
+      color: #18251f;
+    }
+
+    header {
+      background: #0f6b4f;
+      color: white;
+      padding: 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      opacity: .85;
+      font-size: 13px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 16px;
+    }
+
+    .business-box {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .business-box input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccd7d2;
+      border-radius: 10px;
+      margin-top: 8px;
+      font-size: 15px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 16px;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .card small {
+      color: #68766f;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 8px;
+    }
+
+    .section-title {
+      margin: 20px 0 10px;
+      font-size: 19px;
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .module {
+      background: white;
+      border: none;
+      padding: 18px 12px;
+      border-radius: 15px;
+      text-align: left;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .module span {
+      display: block;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .module:hover {
+      transform: translateY(-2px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      background: #0f6b4f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 15px;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #e8efeb;
+      color: #0f6b4f;
+    }
+
+    .language {
+      float: right;
+      margin-top: -32px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      color: #718078;
+      font-size: 13px;
+    }
+
+    @media (min-width: 700px) {
+      .dashboard {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .modules {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <h1 id="appTitle">Business Management App</h1>
+    <p id="subtitle">Simple management for MSMEs</p>
+
+    <button class="language secondary" onclick="toggleLanguage()">
+      Hausa / English
+    </button>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="business-box">
+    <h2 id="businessTitle">Your Business</h2>
+
+    <input
+      id="businessName"
+      type="text"
+      placeholder="Enter your business name"
+      oninput="saveBusinessName()"
+    >
+
+    <div class="actions">
+      <button onclick="saveBusinessName()">Save Business</button>
+    </div>
+  </section>
+
+  <h2 class="section-title" id="dashboardTitle">Dashboard</h2>
+
+  <section class="dashboard">
+
+    <div class="card">
+      <small id="salesLabel">Sales</small>
+      <strong id="salesValue">₦0</strong>
+    </div>
+
+    <div class="card">
+      <small id="expenseLabel">Expenses</small>
+      <strong id="expenseValue">₦0</strong>
+    </div>
+
+    <div class="card">
+      <small id="receivableLabel">Receivables</small>
+      <strong id="receivableValue">₦0</strong>
+    </div>
+
+    <div class="card">
+      <small id="payableLabel">Payables</small>
+      <strong id="payableValue">₦0</strong>
+    </div>
+
+  </section>
+
+  <h2 class="section-title" id="modulesTitle">Business Modules</h2>
+
+  <section class="modules">
+
+    <button class="module" onclick="openModule('Sales')">
+      <span>💰</span>
+      <b id="salesModule">Sales</b>
+    </button>
+
+    <button class="module" onclick="openModule('Expenses')">
+      <span>💸</span>
+      <b id="expensesModule">Expenses</b>
+    </button>
+
+    <button class="module" onclick="openModule('Inventory')">
+      <span>📦</span>
+      <b id="inventoryModule">Inventory</b>
+    </button>
+
+    <button class="module" onclick="openModule('Customers')">
+      <span>👥</span>
+      <b id="customersModule">Customers</b>
+    </button>
+
+    <button class="module" onclick="openModule('Suppliers')">
+      <span>🤝</span>
+      <b id="suppliersModule">Suppliers</b>
+    </button>
+
+    <button class="module" onclick="openModule('Invoices')">
+      <span>🧾</span>
+      <b id="invoicesModule">Invoices</b>
+    </button>
+
+    <button class="module" onclick="openModule('Meetings')">
+      <span>📅</span>
+      <b id="meetingsModule">Meetings</b>
+    </button>
+
+    <button class="module" onclick="openModule('Reports')">
+      <span>📊</span>
+      <b id="reportsModule">Reports</b>
+    </button>
+
+  </section>
+
+</main>
+
+<footer>
+  Business Management App • MSME Edition
+</footer>
+
+<script>
+  let language = "en";
+
+  function saveBusinessName() {
+    const name = document.getElementById("businessName").value;
+    localStorage.setItem("businessName", name);
+
+    if (name.trim()) {
+      alert(
+        language === "en"
+          ? "Business name saved."
+          : "An adana sunan business ɗinka."
+      );
+    }
+  }
+
+  function loadBusinessName() {
+    const name = localStorage.getItem("businessName");
+
+    if (name) {
+      document.getElementById("businessName").value = name;
+    }
+  }
+
+  function openModule(module) {
+    alert(
+      language === "en"
+        ? module + " module will be available here."
+        : "Za mu gina sashen " + module + " a nan."
+    );
+  }
+
+  function toggleLanguage() {
+    language = language === "en" ? "ha" : "en";
+
+    if (language === "ha") {
+      document.getElementById("appTitle").textContent =
+        "Manhajar Gudanar da Kasuwanci";
+
+      document.getElementById("subtitle").textContent =
+        "Sauƙaƙƙen tsarin gudanar da MSMEs";
+
+      document.getElementById("businessTitle").textContent =
+        "Bayanin Business";
+
+      document.getElementById("businessName").placeholder =
+        "Rubuta sunan business ɗinka";
+
+      document.getElementById("dashboardTitle").textContent =
+        "Dashboard";
+
+      document.getElementById("salesLabel").textContent =
+        "Sayarwa";
+
+      document.getElementById("expenseLabel").textContent =
+        "Kuɗin kashewa";
+
+      document.getElementById("receivableLabel").textContent =
+        "Kuɗin da ake bin ka";
+
+      document.getElementById("payableLabel").textContent =
+        "Kuɗin da kake bi";
+
+      document.getElementById("modulesTitle").textContent =
+        "Sassan Business";
+
+      document.getElementById("salesModule").textContent =
+        "Sayarwa";
+
+      document.getElementById("expensesModule").textContent =
+        "Kuɗin kashewa";
+
+      document.getElementById("inventoryModule").textContent =
+        "Kayayyaki";
+
+      document.getElementById("customersModule").textContent =
+        "Kwastomomi";
+
+      document.getElementById("suppliersModule").textContent =
+        "Masu kaya";
+
+      document.getElementById("invoicesModule").textContent =
+        "Invoice";
+
+      document.getElementById("meetingsModule").textContent =
+        "Taro";
+
+      document.getElementById("reportsModule").textContent =
+        "Rahotanni";
+
+    } else {
+
+      document.getElementById("appTitle").textContent =
+        "Business Management App";
+
+      document.getElementById("subtitle").textContent =
+        "Simple management for MSMEs";
+
+      document.getElementById("businessTitle").textContent =
+        "Your Business";
+
+      document.getElementById("businessName").placeholder =
+        "Enter your business name";
+
+      document.getElementById("dashboardTitle").textContent =
+        "Dashboard";
+
+      document.getElementById("salesLabel").textContent =
+        "Sales";
+
+      document.getElementById("expenseLabel").textContent =
+        "Expenses";
+
+      document.getElementById("receivableLabel").textContent =
+        "Receivables";
+
+      document.getElementById("payableLabel").textContent =
+        "Payables";
+
+      document.getElementById("modulesTitle").textContent =
+        "Business Modules";
+
+      document.getElementById("salesModule").textContent =
+        "Sales";
+
+      document.getElementById("expensesModule").textContent =
+        "Expenses";
+
+      document.getElementById("inventoryModule").textContent =
+        "Inventory";
+
+      document.getElementById("customersModule").textContent =
+        "Customers";
+
+      document.getElementById("suppliersModule").textContent =
+        "Suppliers";
+
+      document.getElementById("invoicesModule").textContent =
+        "Invoices";
+
+      document.getElementById("meetingsModule").textContent =
+        "Meetings";
+
+      document.getElementById("reportsModule").textContent =
+        "Reports";
+    }
+  }
+
+  loadBusinessName();
+</script>
+
+</body>
+</html>

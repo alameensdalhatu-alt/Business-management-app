@@ -20,9 +20,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #f1f7f4;
+  color: #17221e;
   line-height: 1.5;
+  min-height: 100vh;
 }
 
 header,
